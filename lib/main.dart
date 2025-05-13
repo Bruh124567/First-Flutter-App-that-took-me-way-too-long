@@ -149,12 +149,13 @@ class FavoritesPage extends StatelessWidget {
         child: Text('No favorites yet.'),
       );
     } else {
-      return ListView.builder(
-      padding: EdgeInsets.all(8),
-      itemCount: favorites.length,
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(leading: const Icon(Icons.favorite), title: Text(favorites[index].asLowerCase),);
-      });
+      return SafeArea(child:
+        ListView.builder(
+        padding: EdgeInsets.all(8),
+        itemCount: favorites.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(leading: const Icon(Icons.favorite), title: Text(favorites[index].asLowerCase),);
+      }));
     }
 
     }
