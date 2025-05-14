@@ -60,16 +60,17 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         page = GeneratorPage();
         break;
-    case 1:
+      case 1:
         page = FavoritesPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
 
- return Scaffold(
+    return Scaffold(
       body: Container(child: page), // The content area
-      bottomNavigationBar: NavigationBar( // NavigationBar at the bottom
+      bottomNavigationBar: NavigationBar(
+        // NavigationBar at the bottom
         destinations: [
           NavigationDestination(
             icon: Icon(Icons.home),
@@ -80,13 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
             label: "Favorites",
           ),
         ],
-            selectedIndex: selectedIndex,
-            onDestinationSelected: (value) {
-              setState(() {
-                selectedIndex = value;
-              });
-          },
-        ),
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (value) {
+          setState(() {
+            selectedIndex = value;
+          });
+        },
+      ),
     );
   }
 }
@@ -136,29 +137,42 @@ class GeneratorPage extends StatelessWidget {
 }
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:3736117711.
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
+  @override
+  State<FavoritesPage> createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:178445978.
     var appState = context.watch<MyAppState>();
     final List<WordPair> favorites = appState.favorites;
 
-
     if (favorites.isEmpty) {
       return Center(
         child: Text('No favorites yet.'),
       );
     } else {
-      return SafeArea(child:
-        ListView.builder(
-        padding: EdgeInsets.all(8),
-        itemCount: favorites.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(leading: const Icon(Icons.favorite), title: Text(favorites[index].asLowerCase),);
-      }));
+      return SafeArea(
+          child: ListView.builder(
+              padding: EdgeInsets.all(8),
+              itemCount: favorites.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  leading: const Icon(Icons.favorite),
+                  title: Text(favorites[index].asLowerCase),
+                  trailing: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          favorites.removeAt(index);
+                        });
+                      },
+                      icon: const Icon(Icons.delete)),
+                );
+              }));
     }
-
-    }
+  }
 }
 
 class BigCard extends StatelessWidget {
